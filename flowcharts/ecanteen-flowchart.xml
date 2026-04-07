@@ -1,0 +1,96 @@
+<mxfile host="app.diagrams.net" modified="2026-04-07T10:20:00.000Z" agent="Mozilla/5.0" version="24.7.17" type="device">
+  <diagram id="ecanteen-flow" name="E-Canteen Flow">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1280" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="E-Canteen Web App Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=24;fontStyle=1;fontColor=#0A1F44;" vertex="1" parent="1">
+          <mxGeometry x="80" y="20" width="420" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0A1F44;gradientColor=#123A74;strokeColor=#061226;fontColor=#FFFFFF;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="90" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="open" value="🌐 User opens website" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#E4EDFF;gradientColor=#F2F6FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="180" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="home" value="🏠 Homepage" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#DCE8FF;gradientColor=#EEF3FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="280" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="menu" value="🍽️ Select food menu" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#E4EDFF;gradientColor=#F3F7FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="380" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cart" value="🛒 Add to cart" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#DCE8FF;gradientColor=#EEF3FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="480" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="checkout" value="🧾 Checkout" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#E4EDFF;gradientColor=#F3F7FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="580" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="userData" value="👤 Input user data" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#DCE8FF;gradientColor=#EEF3FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="680" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="paymentMethod" value="💳 Choose payment method" style="rhombus;whiteSpace=wrap;html=1;fillColor=#D6E5FF;gradientColor=#EBF2FF;strokeColor=#0A1F44;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="455" y="790" width="290" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="paymentConfirm" value="✅ Payment confirmation" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#E4EDFF;gradientColor=#F3F7FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="940" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="adminProcess" value="🧑‍💼 Order processed by admin" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#DCE8FF;gradientColor=#EEF3FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="1040" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ready" value="✔️ Order ready" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#E4EDFF;gradientColor=#F3F7FF;strokeColor=#123B7A;fontColor=#0A1F44;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="1140" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="end" value="End" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0A1F44;gradientColor=#123A74;strokeColor=#061226;fontColor=#FFFFFF;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="1240" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e1" edge="1" parent="1" source="start" target="open" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="open" target="home" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="home" target="menu" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="menu" target="cart" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="cart" target="checkout" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="checkout" target="userData" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="userData" target="paymentMethod" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="paymentMethod" target="paymentConfirm" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="paymentConfirm" target="adminProcess" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="adminProcess" target="ready" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="ready" target="end" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;strokeColor=#123B7A;strokeWidth=2;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
