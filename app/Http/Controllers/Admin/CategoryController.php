@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -100,6 +101,16 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category): RedirectResponse
     {
+        $usedByBooksWithStock = Book::query()
+            ->where('category_id', $category->id)
+            ->where('stock', '>', 0)
+            ->exists();
+
+        if ($usedByBooksWithStock) {
+            return redirect()->route('admin.categories.index')
+                ->with('error', 'Kategori tidak dapat dihapus karena masih digunakan oleh buku yang memiliki stok.');
+        }
+
         try {
             $category->delete();
 

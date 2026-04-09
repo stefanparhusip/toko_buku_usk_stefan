@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Book;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\RedirectResponse;
@@ -13,9 +14,6 @@ use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    /**
-     * Display checkout page using authenticated user cart items.
-     */
     public function checkout(): View|RedirectResponse
     {
         $cartItems = Cart::with('book')
@@ -31,9 +29,6 @@ class OrderController extends Controller
         return view('user.checkout.index', compact('cartItems', 'totalPayment'));
     }
 
-    /**
-     * Process checkout transaction: create order, order details, reduce stock, and clear cart.
-     */
     public function processCheckout(Request $request): View|RedirectResponse
     {
         $validated = $request->validate([
@@ -42,7 +37,7 @@ class OrderController extends Controller
             'address' => ['required', 'string', 'max:1000'],
             'city' => ['required', 'string', 'max:255'],
             'postal_code' => ['required', 'string', 'max:20'],
-            'payment_method' => ['required', 'in:' . Order::PAYMENT_COD . ',' . Order::PAYMENT_BANK_TRANSFER],
+            'payment_method' => ['required', 'in:' . Order::PAYMENT_COD . ',' . Order::PAYMENT_BANK_TRANSFER . ',' . Order::PAYMENT_OFFLINE],
         ]);
 
         $userId = auth()->id();
@@ -70,6 +65,8 @@ class OrderController extends Controller
                 'total_payment' => $totalPrice,
                 'status' => Order::STATUS_PENDING,
                 'payment_method' => $validated['payment_method'],
+                'payment_status' => Order::PAYMENT_STATUS_PENDING,
+                'receipt_number' => null,
                 'resi' => null,
             ]);
 
@@ -99,9 +96,6 @@ class OrderController extends Controller
         return view('user.checkout.success', compact('order'));
     }
 
-    /**
-     * Display all orders that belong to the authenticated user.
-     */
     public function index(): View
     {
         $orders = Order::with('orderDetails.book')
@@ -112,9 +106,6 @@ class OrderController extends Controller
         return view('user.orders.index', compact('orders'));
     }
 
-    /**
-     * Display purchase history for authenticated user.
-     */
     public function history(): View
     {
         $orders = Order::with('orderDetails.book')
@@ -125,16 +116,13 @@ class OrderController extends Controller
         return view('user.orders.history', compact('orders'));
     }
 
-    /**
-     * Mark bank transfer order as submitted by user.
-     */
     public function confirmTransfer(Order $order): RedirectResponse
     {
         if ($order->user_id !== auth()->id()) {
             abort(403);
         }
 
-        if ($order->payment_method !== Order::PAYMENT_BANK_TRANSFER) {
+        if (! $order->isBankTransferPayment()) {
             return redirect()->route('orders.index')->with('error', 'Order ini bukan pembayaran transfer.');
         }
 
@@ -143,15 +131,52 @@ class OrderController extends Controller
         }
 
         $order->update([
-            'status' => Order::STATUS_WAITING_VERIFICATION,
+            'status' => Order::STATUS_PAID,
+            'payment_status' => Order::PAYMENT_STATUS_PAID,
         ]);
 
         return redirect()->route('orders.index')->with('success', 'Konfirmasi transfer berhasil dikirim.');
     }
 
-    /**
-     * Generate a unique order code using timestamp and random digits.
-     */
+    public function cancel(Order $order): RedirectResponse
+    {
+        if ($order->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $isCancelled = DB::transaction(function () use ($order) {
+            $lockedOrder = Order::with('orderDetails')
+                ->lockForUpdate()
+                ->find($order->id);
+
+            if (! $lockedOrder || ! in_array((string) $lockedOrder->status, [
+                Order::STATUS_PENDING,
+                Order::STATUS_PAID,
+                Order::STATUS_PROCESSING,
+            ], true)) {
+                return false;
+            }
+
+            foreach ($lockedOrder->orderDetails as $detail) {
+                Book::whereKey($detail->book_id)
+                    ->lockForUpdate()
+                    ->increment('stock', (int) $detail->quantity);
+            }
+
+            $lockedOrder->update([
+                'status' => Order::STATUS_CANCELLED,
+            ]);
+
+            return true;
+        });
+
+        if (! $isCancelled) {
+            return redirect()->route('orders.index')->with('error', 'Order ini tidak dapat dibatalkan.');
+        }
+
+        return redirect()->route('orders.index')->with('success', 'Order berhasil dibatalkan dan stok buku dikembalikan.');
+    }
+
     private function generateOrderCode(): string
     {
         do {

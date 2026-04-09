@@ -1,5 +1,9 @@
 @extends('user.layouts.app', ['title' => 'My Orders'])
 
+@php
+    use App\Models\Order;
+@endphp
+
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -37,7 +41,9 @@
                             <th>Penerima</th>
                             <th>Total Payment</th>
                             <th>Status</th>
-                            <th>Payment</th>
+                            <th>Payment Method</th>
+                            <th>Payment Status</th>
+                            <th>Kwitansi</th>
                             <th>Items</th>
                             <th>Tanggal</th>
                             <th>Aksi</th>
@@ -46,12 +52,7 @@
                         <tbody>
                         @foreach ($orders as $order)
                             @php
-                                $statusLabel = $order->status === 'completed' ? 'selesai' : $order->status;
-                                $statusBadge = $order->status === 'completed'
-                                    ? 'text-bg-success'
-                                    : ($order->status === 'processing'
-                                        ? 'text-bg-primary'
-                                        : ($order->status === 'menunggu verifikasi' ? 'text-bg-warning' : 'text-bg-secondary'));
+                                $canCancel = in_array($order->status, [Order::STATUS_PENDING, Order::STATUS_PAID, Order::STATUS_PROCESSING], true);
                             @endphp
                             <tr>
                                 <td>{{ $order->order_code }}</td>
@@ -61,25 +62,41 @@
                                 </td>
                                 <td>Rp {{ number_format($order->display_total, 0, ',', '.') }}</td>
                                 <td>
-                                    <span class="badge text-capitalize {{ $statusBadge }}">{{ $statusLabel }}</span>
+                                    <span class="badge {{ $order->status_badge_class }}">{{ $order->status_label }}</span>
                                 </td>
-                                <td>{{ $order->payment_method }}</td>
+                                <td>{{ $order->payment_method_label }}</td>
+                                <td>
+                                    <span class="badge {{ $order->payment_status === Order::PAYMENT_STATUS_PAID ? 'text-bg-primary' : 'text-bg-warning' }}">
+                                        {{ $order->payment_status_label }}
+                                    </span>
+                                </td>
+                                <td>{{ $order->receipt_number ?? '-' }}</td>
                                 <td>{{ $order->orderDetails->sum('quantity') }}</td>
                                 <td>{{ $order->created_at->format('d M Y H:i') }}</td>
                                 <td>
-                                    @if ($order->payment_method === 'BANK_TRANSFER' && $order->status === 'pending')
-                                        <form action="{{ route('orders.confirm-transfer', $order) }}" method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-warning">Saya sudah transfer</button>
-                                        </form>
-                                    @else
-                                        <span class="text-muted small">-</span>
-                                    @endif
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="{{ route('invoice.show', $order->id) }}" class="btn btn-sm btn-outline-dark">Invoice</a>
+
+                                        @if ($order->isBankTransferPayment() && $order->status === Order::STATUS_PENDING)
+                                            <form action="{{ route('orders.confirm-transfer', $order) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-sm btn-warning">Saya sudah transfer</button>
+                                            </form>
+                                        @endif
+
+                                        @if ($canCancel)
+                                            <form action="{{ route('orders.cancel', $order) }}" method="POST" onsubmit="return confirm('Yakin ingin membatalkan order ini?')">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Batalkan</button>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="8" class="pt-0 border-0">
+                                <td colspan="10" class="pt-0 border-0">
                                     <div class="small text-muted">Alamat: {{ $order->address }}, {{ $order->city }} {{ $order->postal_code }}</div>
                                 </td>
                             </tr>

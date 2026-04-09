@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -43,9 +44,28 @@ class ContactController extends Controller
      */
     public function index(Request $request): View
     {
-        $messages = Contact::with('receiver')
-            ->where('sender_id', $request->user()->id)
-            ->latest()
+        if ($request->boolean('debug_messages')) {
+            dd(Message::all());
+        }
+
+        $userId = (int) $request->user()->id;
+        $adminIds = User::where('role', 'admin')->pluck('id');
+
+        $messages = Message::with(['sender:id,name,role', 'receiver:id,name,role'])
+            ->where(function ($query) use ($userId) {
+                $query->where('sender_id', $userId)
+                    ->orWhere('receiver_id', $userId);
+            })
+            ->where(function ($query) use ($userId, $adminIds) {
+                $query->where(function ($userToAdminQuery) use ($userId, $adminIds) {
+                    $userToAdminQuery->where('sender_id', $userId)
+                        ->whereIn('receiver_id', $adminIds);
+                })->orWhere(function ($adminToUserQuery) use ($userId, $adminIds) {
+                    $adminToUserQuery->whereIn('sender_id', $adminIds)
+                        ->where('receiver_id', $userId);
+                });
+            })
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('user.contacts.index', compact('messages'));

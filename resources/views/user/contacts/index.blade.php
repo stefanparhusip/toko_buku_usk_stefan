@@ -22,17 +22,26 @@
                     </thead>
                     <tbody>
                     @forelse ($messages as $message)
+                        @php
+                            $isFromUser = $message->sender_id == auth()->id();
+                        @endphp
                         <tr>
-                            <td class="fw-semibold">{{ $message->subject }}</td>
-                            <td>{{ \Illuminate\Support\Str::limit($message->message, 120) }}</td>
+                            <td class="fw-semibold">Chat Admin</td>
                             <td>
-                                @if ($message->reply)
-                                    <span class="text-success">{{ \Illuminate\Support\Str::limit($message->reply, 120) }}</span>
+                                @if ($isFromUser)
+                                    {{ \Illuminate\Support\Str::limit($message->message, 120) }}
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if (! $isFromUser)
+                                    <span class="text-success">{{ \Illuminate\Support\Str::limit($message->message, 120) }}</span>
                                 @else
                                     <span class="text-muted">Belum ada balasan</span>
                                 @endif
                             </td>
-                            <td>{{ $message->created_at?->format('d M Y H:i') }}</td>
+                            <td>{{ $message->created_at?->timezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
                         </tr>
                     @empty
                         <tr>

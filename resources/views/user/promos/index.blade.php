@@ -48,7 +48,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#promoDetail{{ $promo->id }}"
                             >
-                                Lihat Detail
+                                Lihat Detail Promo
                             </button>
                             <a href="{{ route('books.index') }}" class="btn btn-navy">Gunakan Promo</a>
                         </div>

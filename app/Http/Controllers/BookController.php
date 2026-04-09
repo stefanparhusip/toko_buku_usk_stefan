@@ -18,10 +18,14 @@ class BookController extends Controller
     {
         $search = trim((string) $request->query('search', $request->query('q', '')));
         $categoryId = (int) $request->query('category', 0);
+        $selectedAuthor = trim((string) $request->query('author', ''));
 
         $books = Book::with('category')
             ->when($categoryId > 0, function ($query) use ($categoryId) {
                 $query->where('category_id', $categoryId);
+            })
+            ->when($selectedAuthor !== '', function ($query) use ($selectedAuthor) {
+                $query->where('author', $selectedAuthor);
             })
             ->when($search !== '', function ($query) use ($search) {
                 $query->where(function ($subQuery) use ($search) {
@@ -39,6 +43,14 @@ class BookController extends Controller
             ? Category::orderBy('name')->get(['id', 'name'])
             : collect();
 
+        $authors = Book::query()
+            ->whereNotNull('author')
+            ->where('author', '!=', '')
+            ->select('author')
+            ->distinct()
+            ->orderBy('author')
+            ->pluck('author');
+
         $homepageSlots = Schema::hasTable('homepage_slots')
             ? HomepageSlot::whereIn('position', [1, 2, 3])
                 ->where('is_active', true)
@@ -51,7 +63,9 @@ class BookController extends Controller
             'books' => $books,
             'search' => $search,
             'categories' => $categories,
+            'authors' => $authors,
             'selectedCategory' => $categoryId,
+            'selectedAuthor' => $selectedAuthor,
             'homepageSlots' => $homepageSlots,
         ]);
     }
@@ -74,7 +88,8 @@ class BookController extends Controller
     public function show(Request $request, int $id): View
     {
         $book = Book::with('category')->findOrFail($id);
-        $focusDetail = $request->boolean('focus');
+        // Default to full detail page when user opens /books/{id}.
+        $focusDetail = $request->boolean('focus', true);
 
         $search = trim((string) $request->query('q', ''));
         $sort = (string) $request->query('sort', 'newest');

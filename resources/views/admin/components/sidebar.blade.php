@@ -27,6 +27,13 @@
             <i class="fa-solid fa-basket-shopping"></i>
             <span>Orders</span>
         </a>
+        <a href="{{ route('admin.chat.index') }}" class="sidebar-link {{ request()->routeIs('admin.chat.*') ? 'active' : '' }}">
+            <i class="fa-solid fa-comments"></i>
+            <span>Chat</span>
+            @if (($unreadChatCount ?? 0) > 0)
+                <span class="badge text-bg-danger ms-auto">{{ $unreadChatCount }}</span>
+            @endif
+        </a>
         <a href="{{ route('admin.contacts.index') }}" class="sidebar-link {{ request()->routeIs('admin.contacts.*') ? 'active' : '' }}">
             <i class="fa-solid fa-envelope"></i>
             <span>Messages</span>

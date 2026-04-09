@@ -1,5 +1,9 @@
 @extends('user.layouts.app', ['title' => 'Checkout'])
 
+@php
+    use App\Models\Order;
+@endphp
+
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -104,20 +108,32 @@
 
                         <div class="border rounded-3 p-3 mb-3">
                             <div class="form-check m-0">
-                                <input class="form-check-input" type="radio" name="payment_method" id="pm_transfer" value="BANK_TRANSFER" @checked(old('payment_method') === 'BANK_TRANSFER')>
+                                <input class="form-check-input" type="radio" name="payment_method" id="pm_transfer" value="{{ Order::PAYMENT_BANK_TRANSFER }}" @checked(old('payment_method') === Order::PAYMENT_BANK_TRANSFER)>
                                 <label class="form-check-label fw-semibold" for="pm_transfer">Transfer Bank</label>
                                 <div class="small text-muted">Transfer manual, lalu klik tombol "Saya sudah transfer".</div>
+                            </div>
+                        </div>
+
+                        <div class="border rounded-3 p-3 mb-3">
+                            <div class="form-check m-0">
+                                <input class="form-check-input" type="radio" name="payment_method" id="pm_offline" value="{{ Order::PAYMENT_OFFLINE }}" @checked(old('payment_method') === Order::PAYMENT_OFFLINE)>
+                                <label class="form-check-label fw-semibold" for="pm_offline">Bayar Langsung</label>
+                                <div class="small text-muted">Datang langsung ke admin untuk pembayaran manual.</div>
                             </div>
                         </div>
                         @error('payment_method')
                             <div class="text-danger small mb-3">{{ $message }}</div>
                         @enderror
 
-                        <div id="transfer_bank_info" class="alert alert-warning small mb-3 {{ old('payment_method') === 'BANK_TRANSFER' ? '' : 'd-none' }}">
+                        <div id="transfer_bank_info" class="alert alert-warning small mb-3 {{ old('payment_method') === Order::PAYMENT_BANK_TRANSFER ? '' : 'd-none' }}">
                             <div class="fw-semibold mb-2">Rekening Tujuan (Demo)</div>
                             <div>BCA: 1234567890 a.n. BookStore Nusantara</div>
                             <div>BRI: 9876543210 a.n. BookStore Nusantara</div>
                             <div>Mandiri: 1122334455 a.n. BookStore Nusantara</div>
+                        </div>
+
+                        <div id="offline_info" class="alert alert-info small mb-3 {{ old('payment_method') === Order::PAYMENT_OFFLINE ? '' : 'd-none' }}">
+                            Silakan lakukan pembayaran langsung ke admin.
                         </div>
 
                         <div class="d-flex justify-content-between mb-3">
@@ -136,7 +152,9 @@
         document.addEventListener('DOMContentLoaded', function () {
             const codInput = document.getElementById('pm_cod');
             const transferInput = document.getElementById('pm_transfer');
+            const offlineInput = document.getElementById('pm_offline');
             const bankInfo = document.getElementById('transfer_bank_info');
+            const offlineInfo = document.getElementById('offline_info');
 
             const syncTransferPanel = () => {
                 if (!bankInfo || !transferInput) {
@@ -144,10 +162,15 @@
                 }
 
                 bankInfo.classList.toggle('d-none', !transferInput.checked);
+
+                if (offlineInfo && offlineInput) {
+                    offlineInfo.classList.toggle('d-none', !offlineInput.checked);
+                }
             };
 
             codInput?.addEventListener('change', syncTransferPanel);
             transferInput?.addEventListener('change', syncTransferPanel);
+            offlineInput?.addEventListener('change', syncTransferPanel);
             syncTransferPanel();
         });
     </script>

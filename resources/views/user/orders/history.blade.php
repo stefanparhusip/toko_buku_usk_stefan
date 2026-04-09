@@ -1,5 +1,9 @@
 @extends('user.layouts.app', ['title' => 'History Pembelian'])
 
+@php
+    use App\Models\Order;
+@endphp
+
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
@@ -21,14 +25,6 @@
     @else
         <div class="row g-3">
             @foreach ($orders as $order)
-                @php
-                    $statusLabel = $order->status === 'completed' ? 'selesai' : $order->status;
-                    $statusBadge = $order->status === 'completed'
-                        ? 'text-bg-success'
-                        : ($order->status === 'processing'
-                            ? 'text-bg-primary'
-                            : ($order->status === 'menunggu verifikasi' ? 'text-bg-warning' : 'text-bg-secondary'));
-                @endphp
                 <div class="col-12">
                     <div class="card border-0 shadow-sm rounded-4">
                         <div class="card-body">
@@ -37,14 +33,22 @@
                                     <div class="small text-muted">Order Code</div>
                                     <div class="fw-semibold">{{ $order->order_code }}</div>
                                 </div>
-                                <span class="badge text-capitalize {{ $statusBadge }}">{{ $statusLabel }}</span>
+                                <span class="badge {{ $order->status_badge_class }}">{{ $order->status_label }}</span>
                             </div>
 
                             <div class="row g-2 small mb-3">
                                 <div class="col-md-3"><span class="text-muted">Penerima:</span> {{ $order->nama_penerima }}</div>
                                 <div class="col-md-3"><span class="text-muted">HP:</span> {{ $order->phone }}</div>
-                                <div class="col-md-3"><span class="text-muted">Payment:</span> {{ $order->payment_method }}</div>
+                                <div class="col-md-3"><span class="text-muted">Payment:</span> {{ $order->payment_method_label }}</div>
                                 <div class="col-md-3"><span class="text-muted">Tanggal:</span> {{ $order->created_at->format('d M Y H:i') }}</div>
+                            </div>
+
+                            <div class="row g-2 small mb-3">
+                                <div class="col-md-3">
+                                    <span class="text-muted">Payment Status:</span>
+                                    <span class="badge {{ $order->payment_status === Order::PAYMENT_STATUS_PAID ? 'text-bg-primary' : 'text-bg-warning' }}">{{ $order->payment_status_label }}</span>
+                                </div>
+                                <div class="col-md-9"><span class="text-muted">Nomor Kwitansi:</span> {{ $order->receipt_number ?? '-' }}</div>
                             </div>
 
                             <div class="small text-muted mb-3">Alamat: {{ $order->address }}, {{ $order->city }} {{ $order->postal_code }}</div>
@@ -74,6 +78,10 @@
 
                             <div class="text-end mt-3 fw-semibold text-primary">
                                 Total: Rp {{ number_format($order->display_total, 0, ',', '.') }}
+                            </div>
+
+                            <div class="text-end mt-2">
+                                <a href="{{ route('invoice.show', $order->id) }}" class="btn btn-sm btn-outline-dark">Lihat Invoice</a>
                             </div>
                         </div>
                     </div>

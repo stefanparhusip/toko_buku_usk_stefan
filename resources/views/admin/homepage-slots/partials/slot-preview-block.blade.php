@@ -1,6 +1,6 @@
 @php
     $isFilled = $slot && ($slot->image || $slot->image_url || $slot->title || $slot->description || $slot->book_id);
-    $slotLabel = $slotTag ?? ($slot ? ('Slot '.$slot->position) : 'Slot');
+    $slotLabel = $slotTag ?? ($slot ? ('Slot '.($slot->slot_number ?? $slot->position)) : 'Slot');
 @endphp
 
 <div class="slot-block {{ $class }} {{ $slot && ! $slot->is_active ? 'slot-inactive' : '' }}">

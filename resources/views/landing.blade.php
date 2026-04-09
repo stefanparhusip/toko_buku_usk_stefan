@@ -101,17 +101,58 @@
             background: #fff;
         }
 
-        .btn-navy {
-            background: var(--blue);
-            border-color: var(--blue);
-            color: #fff;
-            border-radius: 0.8rem;
+        .btn {
+            border-radius: 11px;
             font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.22s ease;
         }
 
+        .btn-sm {
+            border-radius: 10px;
+            padding: 0.38rem 0.78rem;
+        }
+
+        .btn-primary,
+        .btn-navy {
+            background: #0f172a;
+            border-color: #0f172a;
+            color: #fff;
+        }
+
+        .btn-primary:hover,
         .btn-navy:hover {
-            background: #105699;
-            border-color: #105699;
+            background: #1e2b4b;
+            border-color: #1e2b4b;
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+        }
+
+        .btn-secondary,
+        .btn-light {
+            background: #f5f8ff;
+            border: 1px solid #b9c9e8;
+            color: #0f172a;
+        }
+
+        .btn-secondary:hover,
+        .btn-light:hover {
+            background: #eaf1ff;
+            border-color: #a7bce3;
+            color: #0f172a;
+        }
+
+        .btn-outline-primary,
+        .btn-outline-secondary {
+            border-color: #0f172a;
+            color: #0f172a;
+            background: transparent;
+        }
+
+        .btn-outline-primary:hover,
+        .btn-outline-secondary:hover {
+            background: #0f172a;
+            border-color: #0f172a;
             color: #fff;
         }
 
@@ -188,12 +229,143 @@
             box-shadow: 0 10px 26px rgba(19, 46, 88, 0.09);
         }
 
+        .slot-hoverable {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .slot-hoverable .slot-image {
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+        }
+
+        .slot-hoverable .slot-overlay {
+            transition: background 0.3s ease, color 0.3s ease;
+            background: linear-gradient(180deg, rgba(10, 31, 68, 0.12) 0%, rgba(10, 31, 68, 0.84) 100%);
+        }
+
+        .slot-hoverable .slot-overlay h2,
+        .slot-hoverable .slot-overlay h4,
+        .slot-hoverable .slot-overlay p {
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .slot-hoverable .slot-overlay .btn {
+            opacity: 0.88;
+            transform: translateY(2px);
+            transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .slot-hoverable:hover {
+            transform: scale(1.04);
+            box-shadow: 0 20px 42px rgba(10, 31, 68, 0.34);
+        }
+
+        .slot-card-hero.slot-hoverable:hover {
+            transform: scale(1.03);
+        }
+
+        .slot-card-banner.slot-hoverable:hover {
+            transform: scale(1.05);
+        }
+
+        .slot-hoverable:hover .slot-image {
+            transform: scale(1.05);
+        }
+
+        .slot-hoverable:hover .slot-overlay {
+            background: linear-gradient(180deg, rgba(10, 31, 68, 0.2) 0%, rgba(10, 31, 68, 0.95) 100%);
+        }
+
+        .slot-hoverable:hover .slot-overlay h2,
+        .slot-hoverable:hover .slot-overlay h4,
+        .slot-hoverable:hover .hero-subtitle,
+        .slot-hoverable:hover .slot-overlay p {
+            color: #ffffff !important;
+            opacity: 1;
+        }
+
+        .slot-hoverable:hover .slot-overlay .btn {
+            opacity: 1;
+            transform: translateY(0);
+            box-shadow: 0 10px 24px rgba(6, 19, 40, 0.35);
+        }
+
         .slot-admin-highlight {
             border: 2px dashed #9db7df;
         }
 
         .slot-card-hero {
             min-height: 420px;
+        }
+
+        .hero-slider {
+            position: relative;
+            height: 100%;
+        }
+
+        .hero-slider-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.45s ease;
+        }
+
+        .hero-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .hero-slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            width: 42px;
+            height: 42px;
+            border: 0;
+            border-radius: 999px;
+            background: rgba(11, 29, 58, 0.78);
+            color: #fff;
+            font-size: 1.45rem;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-slider-btn.prev {
+            left: 14px;
+        }
+
+        .hero-slider-btn.next {
+            right: 14px;
+        }
+
+        .hero-slider-indicators {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 12px;
+            z-index: 6;
+            display: flex;
+            justify-content: center;
+            gap: 0.42rem;
+        }
+
+        .hero-slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            border: 0;
+            background: rgba(255, 255, 255, 0.55);
+            padding: 0;
+        }
+
+        .hero-slider-dot.active {
+            background: #fff;
+            transform: scale(1.16);
         }
 
         .slot-card-banner {
@@ -420,7 +592,7 @@
             left: 0;
             right: 0;
             top: 100%;
-            z-index: 1050;
+            z-index: 1200;
             opacity: 0;
             transform: translateY(-10px);
             pointer-events: none;
@@ -879,12 +1051,12 @@
         </div>
 
         <div class="tag-row mt-2 pb-1">
-            @forelse ($recommendedBooks->take(7) as $recommendedBook)
-                <a href="{{ route('books.show', ['id' => $recommendedBook->id, 'focus' => 1]) }}" class="tag-chip">
-                    {{ $recommendedBook->title }}
+            @forelse ($categories->take(7) as $category)
+                <a href="{{ route('categories.books', $category->id) }}" class="tag-chip">
+                    {{ $category->name }}
                 </a>
             @empty
-                <span class="tag-chip">Belum ada rekomendasi</span>
+                <span class="tag-chip">Belum ada kategori</span>
             @endforelse
         </div>
     </div>
@@ -897,8 +1069,7 @@
                         <div class="col-lg-4 mega-left">
                             <div class="menu-list">
                                 <div class="group-title">Kategori Buku</div>
-                                <a href="{{ route('books.index') }}">Semua Buku</a>
-                                <a href="{{ route('search', ['q' => 'e-book']) }}">E-Book</a>
+                                <a href="{{ route('books.index') }}">Semua Kategori</a>
                             </div>
                         </div>
                         <div class="col-lg-8">
@@ -932,57 +1103,113 @@
 <section class="py-4">
     <div class="container container-wide">
         <div class="alert" style="background:#e8f5e8; border:1px solid #cae8ca; color:#2e6a2e;">
-            Agar dapat menerima informasi kode pengambilan di toko dan informasi pesanan lainnya via WhatsApp, mohon lengkapi nomor ponsel Anda di halaman akun.
+             Nikmati moment berbelanja yang menyenangkan, klik buku yang diinginkan, bayar, buku sudah ada di tanganmu!!!
         </div>
 
         @php
             $isAdminViewer = auth()->check() && auth()->user()->role === 'admin';
-            $slotHero = $homepageSlots->get(1);
             $slotBannerTop = $homepageSlots->get(2);
             $slotBannerBottom = $homepageSlots->get(3);
+            $heroItems = $slotOneItems->values();
 
             $shouldShowSlot = function ($slot) use ($isAdminViewer) {
                 return $slot && ($isAdminViewer || $slot->is_active);
             };
 
-            $resolveSlotLink = function ($slot) {
+            $resolveSlotLink = function ($slot, $fallback = 'books.index') {
                 if (! $slot) {
                     return route('books.index');
                 }
 
                 if ($slot->link) {
-                    return $slot->link;
+                    $rawLink = trim((string) $slot->link);
+                    $isInvalidPlaceholder = $rawLink === '#'
+                        || \Illuminate\Support\Str::startsWith(strtolower($rawLink), 'javascript:');
+
+                    if ($rawLink !== '' && ! $isInvalidPlaceholder) {
+                        return $rawLink;
+                    }
                 }
 
-                if ($slot->book) {
+                if (isset($slot->book) && $slot->book) {
                     return route('books.show', $slot->book->id);
                 }
 
-                return route('books.index');
+                return route($fallback);
             };
 
+            $showHeroColumn = $heroItems->isNotEmpty() || $isAdminViewer;
             $showBannerColumn = $shouldShowSlot($slotBannerTop) || $shouldShowSlot($slotBannerBottom) || $isAdminViewer;
         @endphp
 
         <div class="row g-3">
             <div class="{{ $showBannerColumn ? 'col-lg-8' : 'col-lg-12' }}">
-                @if ($shouldShowSlot($slotHero))
-                    <div class="slot-card slot-card-hero {{ $isAdminViewer ? 'slot-admin-highlight' : '' }}">
+                @if ($showHeroColumn && $heroItems->count() > 1)
+                    <div class="slot-card slot-card-hero {{ $isAdminViewer ? 'slot-admin-highlight' : '' }}" data-hero-slider>
                         @if ($isAdminViewer)
                             <span class="slot-label">Slot 1</span>
-                            <a href="{{ route('admin.homepage-slots.edit', $slotHero) }}" class="btn btn-sm btn-light slot-edit">Edit</a>
+                            @if ($slotOne)
+                                <a href="{{ route('admin.homepage-slots.edit', $slotOne) }}" class="btn btn-sm btn-light slot-edit">Edit</a>
+                            @endif
                         @endif
 
-                        @if ($slotHero->image_source)
-                            <img src="{{ $slotHero->image_source }}" alt="{{ $slotHero->title }}" class="slot-image">
+                        <div class="hero-slider">
+                            <div class="hero-slider-track" data-hero-track>
+                                @foreach ($heroItems as $heroItem)
+                                    <div class="hero-slide">
+                                        <div class="slot-card slot-card-hero slot-hoverable" data-slot-href="{{ $resolveSlotLink($heroItem, 'promo.index') }}">
+                                            @if ($heroItem->image_source)
+                                                <img src="{{ $heroItem->image_source }}" alt="{{ $heroItem->title }}" class="slot-image">
+                                            @else
+                                                <div class="slot-empty"><strong>Image belum diupload</strong></div>
+                                            @endif
+
+                                            <div class="slot-overlay">
+                                                <h2 class="hero-title mb-2">{{ $heroItem->title ?: 'Slider Hero Homepage' }}</h2>
+                                                @if ($heroItem->description)
+                                                    <p class="hero-subtitle mb-3">{{ \Illuminate\Support\Str::limit($heroItem->description, 160) }}</p>
+                                                @endif
+                                                <a href="{{ $resolveSlotLink($heroItem, 'promo.index') }}" class="btn btn-light fw-semibold">{{ $heroItem->button_text ?: 'Lihat Detail' }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <button type="button" class="hero-slider-btn prev" data-hero-prev aria-label="Slide sebelumnya">&#8249;</button>
+                            <button type="button" class="hero-slider-btn next" data-hero-next aria-label="Slide berikutnya">&#8250;</button>
+
+                            <div class="hero-slider-indicators" data-hero-indicators>
+                                @foreach ($heroItems as $heroIndex => $heroItem)
+                                    <button type="button" class="hero-slider-dot {{ $heroIndex === 0 ? 'active' : '' }}" data-hero-dot="{{ $heroIndex }}" aria-label="Slide {{ $heroIndex + 1 }}"></button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @elseif ($showHeroColumn && $heroItems->count() === 1)
+                    @php
+                        $heroItem = $heroItems->first();
+                    @endphp
+                    <div class="slot-card slot-card-hero slot-hoverable {{ $isAdminViewer ? 'slot-admin-highlight' : '' }}" data-slot-href="{{ $resolveSlotLink($heroItem, 'promo.index') }}">
+                        @if ($isAdminViewer)
+                            <span class="slot-label">Slot 1</span>
+                            @if ($slotOne)
+                                <a href="{{ route('admin.homepage-slots.edit', $slotOne) }}" class="btn btn-sm btn-light slot-edit">Edit</a>
+                            @endif
+                        @endif
+
+                        @if ($heroItem->image_source)
+                            <img src="{{ $heroItem->image_source }}" alt="{{ $heroItem->title }}" class="slot-image">
+                        @else
+                            <div class="slot-empty"><strong>Image belum diupload</strong></div>
                         @endif
 
                         <div class="slot-overlay">
-                            <h2 class="hero-title mb-2">{{ $slotHero->title ?: 'Slot Hero Homepage' }}</h2>
-                            @if ($slotHero->description)
-                                <p class="hero-subtitle mb-3">{{ \Illuminate\Support\Str::limit($slotHero->description, 140) }}</p>
+                            <h2 class="hero-title mb-2">{{ $heroItem->title ?: 'Slider Hero Homepage' }}</h2>
+                            @if ($heroItem->description)
+                                <p class="hero-subtitle mb-3">{{ \Illuminate\Support\Str::limit($heroItem->description, 160) }}</p>
                             @endif
-                            <a href="{{ $resolveSlotLink($slotHero) }}" class="btn btn-light fw-semibold">Lihat Detail</a>
+                            <a href="{{ $resolveSlotLink($heroItem, 'promo.index') }}" class="btn btn-light fw-semibold">{{ $heroItem->button_text ?: 'Lihat Detail' }}</a>
                         </div>
                     </div>
                 @elseif ($isAdminViewer)
@@ -991,7 +1218,9 @@
                         <div class="slot-empty">
                             <div>
                                 <h4 class="mb-2">Slot 1 kosong</h4>
-                                <a href="{{ route('admin.homepage-slots.index') }}" class="btn btn-sm btn-outline-primary">Isi Slot dari Admin</a>
+                                @if ($slotOne)
+                                    <a href="{{ route('admin.homepage-slots.edit', $slotOne) }}" class="btn btn-sm btn-outline-primary">Isi Slot dari Admin</a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -1002,7 +1231,10 @@
                 <div class="col-lg-4 d-flex flex-column gap-3">
                     @foreach ([2 => $slotBannerTop, 3 => $slotBannerBottom] as $position => $slot)
                         @if ($shouldShowSlot($slot))
-                            <div class="slot-card slot-card-banner {{ $isAdminViewer ? 'slot-admin-highlight' : '' }}">
+                            <div
+                                class="slot-card slot-card-banner slot-hoverable {{ $isAdminViewer ? 'slot-admin-highlight' : '' }}"
+                                data-slot-href="{{ $resolveSlotLink($slot) }}"
+                            >
                                 @if ($isAdminViewer)
                                     <span class="slot-label">Slot {{ $position }}</span>
                                     <a href="{{ route('admin.homepage-slots.edit', $slot) }}" class="btn btn-sm btn-light slot-edit">Edit</a>
@@ -1162,7 +1394,7 @@
                                     @endif
 
                                     <div class="mt-auto d-grid gap-2 pt-2">
-                                        <a href="{{ $bookLink }}" class="btn btn-sm btn-outline-primary">Lihat Detail</a>
+                                        <a href="{{ $bookLink }}" class="btn btn-sm btn-outline-primary">{{ $book ? 'Lihat Detail' : 'Buka' }}</a>
                                         @if ($book)
                                             <form action="{{ route('cart.add', $book->id) }}" method="POST">
                                                 @csrf
@@ -1344,6 +1576,81 @@
 
                 window.location.href = card.getAttribute('data-href');
             });
+        });
+
+        document.querySelectorAll('.slot-hoverable[data-slot-href]').forEach(function (slotCard) {
+            slotCard.addEventListener('click', function (event) {
+                if (event.target.closest('a, button, form, input, textarea, select, label')) {
+                    return;
+                }
+
+                const href = slotCard.getAttribute('data-slot-href');
+                if (href) {
+                    window.location.href = href;
+                }
+            });
+        });
+
+        document.querySelectorAll('[data-hero-slider]').forEach(function (slider) {
+            const track = slider.querySelector('[data-hero-track]');
+            const prev = slider.querySelector('[data-hero-prev]');
+            const next = slider.querySelector('[data-hero-next]');
+            const dots = Array.from(slider.querySelectorAll('[data-hero-dot]'));
+
+            if (!track || dots.length === 0) {
+                return;
+            }
+
+            let index = 0;
+            let autoPlay = null;
+
+            const goTo = function (nextIndex) {
+                index = (nextIndex + dots.length) % dots.length;
+                track.style.transform = 'translateX(' + (index * -100) + '%)';
+                dots.forEach(function (dot, dotIndex) {
+                    dot.classList.toggle('active', dotIndex === index);
+                });
+            };
+
+            const startAutoPlay = function () {
+                if (dots.length <= 1) {
+                    return;
+                }
+
+                autoPlay = window.setInterval(function () {
+                    goTo(index + 1);
+                }, 5000);
+            };
+
+            const stopAutoPlay = function () {
+                if (autoPlay) {
+                    window.clearInterval(autoPlay);
+                    autoPlay = null;
+                }
+            };
+
+            if (prev) {
+                prev.addEventListener('click', function () {
+                    goTo(index - 1);
+                });
+            }
+
+            if (next) {
+                next.addEventListener('click', function () {
+                    goTo(index + 1);
+                });
+            }
+
+            dots.forEach(function (dot) {
+                dot.addEventListener('click', function () {
+                    goTo(Number(dot.getAttribute('data-hero-dot') || 0));
+                });
+            });
+
+            slider.addEventListener('mouseenter', stopAutoPlay);
+            slider.addEventListener('mouseleave', startAutoPlay);
+            goTo(0);
+            startAutoPlay();
         });
 
         const initBookSlider = function (container) {

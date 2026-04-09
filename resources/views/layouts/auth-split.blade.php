@@ -126,31 +126,32 @@
 
         .btn-auth {
             min-height: 54px;
-            border-radius: 8px;
+            border-radius: 11px;
             font-weight: 600;
-            background: #0A1F44;
-            border-color: #0A1F44;
+            background: #0f172a;
+            border-color: #0f172a;
             color: #fff;
             font-size: 1.05rem;
             padding: 0.8rem 1rem;
-            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.08s ease;
+            transition: all 0.22s ease;
         }
 
         .btn-auth:hover:not(:disabled) {
-            background: #113066;
-            border-color: #113066;
+            background: #1e2b4b;
+            border-color: #1e2b4b;
             color: #fff;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
         }
 
         .btn-auth:active:not(:disabled) {
-            background: #081734;
-            border-color: #081734;
+            background: #121f3a;
+            border-color: #121f3a;
             transform: translateY(1px);
         }
 
         .btn-auth:disabled {
-            background: #0A1F44;
-            border-color: #0A1F44;
+            background: #0f172a;
+            border-color: #0f172a;
             color: #fff;
             opacity: 0.82;
             cursor: not-allowed;

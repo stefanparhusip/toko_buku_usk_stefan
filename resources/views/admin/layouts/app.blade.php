@@ -198,24 +198,72 @@
             background: var(--card);
         }
 
-        .btn-navy {
-            background-color: var(--navy);
-            border-color: var(--navy);
-            color: #fff;
-            border-radius: 0.75rem;
+        .btn {
+            border-radius: 11px;
             font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.22s ease;
         }
 
-        .btn-navy:hover {
-            background-color: #0f2d61;
-            border-color: #0f2d61;
+        .btn-sm {
+            border-radius: 10px;
+            padding: 0.38rem 0.78rem;
+        }
+
+        .btn-primary,
+        .btn-navy {
+            background-color: #0f172a;
+            border-color: #0f172a;
             color: #fff;
+        }
+
+        .btn-primary:hover,
+        .btn-navy:hover {
+            background-color: #1e2b4b;
+            border-color: #1e2b4b;
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+        }
+
+        .btn-secondary,
+        .btn-light {
+            background: #f5f8ff;
+            border: 1px solid #b9c9e8;
+            color: #0f172a;
+        }
+
+        .btn-secondary:hover,
+        .btn-light:hover {
+            background: #eaf1ff;
+            border-color: #a7bce3;
+            color: #0f172a;
         }
 
         .btn-outline-primary,
-        .btn-outline-danger,
         .btn-outline-secondary {
-            border-radius: 0.72rem;
+            border-color: #0f172a;
+            color: #0f172a;
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        .btn-outline-primary:hover,
+        .btn-outline-secondary:hover {
+            background: #0f172a;
+            border-color: #0f172a;
+            color: #fff;
+        }
+
+        .btn-outline-danger {
+            border-radius: 10px;
+        }
+
+        .badge.bg-purple {
+            background-color: #7c3aed !important;
+        }
+
+        .badge.bg-orange {
+            background-color: #f97316 !important;
         }
 
         .table {

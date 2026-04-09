@@ -5,56 +5,41 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class HomepageSlot extends Model
+class HomepageSlotItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'position',
-        'slot_number',
-        'order_number',
-        'name',
+        'slot_id',
+        'slot_position',
         'title',
         'description',
         'image',
         'image_url',
         'button_text',
-        'book_id',
         'link',
-        'type',
+        'order_number',
         'is_active',
     ];
 
     protected $casts = [
-        'position' => 'integer',
-        'slot_number' => 'integer',
+        'slot_id' => 'integer',
+        'slot_position' => 'integer',
         'order_number' => 'integer',
-        'book_id' => 'integer',
         'is_active' => 'boolean',
     ];
 
     /**
-     * Get the book assigned to this slot when type is book.
+     * Parent slot for this item.
      */
-    public function book(): BelongsTo
+    public function slot(): BelongsTo
     {
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(HomepageSlot::class, 'slot_id');
     }
 
     /**
-     * Get all content items attached to this slot.
-     */
-    public function items(): HasMany
-    {
-        return $this->hasMany(HomepageSlotItem::class, 'slot_id')
-            ->orderBy('order_number')
-            ->orderBy('id');
-    }
-
-    /**
-     * Resolve slot image source from external URL or local storage file.
+     * Resolve item image source from storage file.
      */
     public function getImageSourceAttribute(): ?string
     {

@@ -1,5 +1,9 @@
 @extends('user.layouts.app', ['title' => 'Checkout Success'])
 
+@php
+    use App\Models\Order;
+@endphp
+
 @section('content')
     <div class="card border-0 shadow-sm rounded-4">
         <div class="card-body p-5 text-center">
@@ -17,12 +21,23 @@
                 </div>
                 <div class="border rounded-3 p-3 mb-3 d-flex justify-content-between">
                     <span class="text-muted">Metode Pembayaran</span>
-                    <strong>{{ $order->payment_method }}</strong>
+                    <strong>{{ $order->payment_method_label }}</strong>
+                </div>
+                <div class="border rounded-3 p-3 mb-3 d-flex justify-content-between">
+                    <span class="text-muted">Payment Status</span>
+                    <strong class="badge {{ $order->payment_status === Order::PAYMENT_STATUS_PAID ? 'text-bg-success' : 'text-bg-warning' }}">{{ $order->payment_status_label }}</strong>
                 </div>
                 <div class="border rounded-3 p-3 mb-4 d-flex justify-content-between">
                     <span class="text-muted">Total Payment</span>
                     <strong>Rp {{ number_format($order->display_total, 0, ',', '.') }}</strong>
                 </div>
+
+                @if ($order->receipt_number)
+                    <div class="border rounded-3 p-3 mb-4 d-flex justify-content-between">
+                        <span class="text-muted">Nomor Kwitansi</span>
+                        <strong>{{ $order->receipt_number }}</strong>
+                    </div>
+                @endif
 
                 <div class="border rounded-3 p-3 mb-4 text-start">
                     <div class="small text-muted">Penerima</div>
@@ -32,7 +47,7 @@
                     <div class="small mt-1">HP: {{ $order->phone }}</div>
                 </div>
 
-                @if ($order->payment_method === 'BANK_TRANSFER' && $order->status === 'pending')
+                @if ($order->isBankTransferPayment() && $order->status === Order::STATUS_PENDING)
                     <div class="alert alert-warning text-start mb-4">
                         <div class="fw-semibold mb-2">Langkah Transfer</div>
                         <div>BCA: 1234567890 a.n. BookStore Nusantara</div>
@@ -44,6 +59,12 @@
                         @method('PATCH')
                         <button type="submit" class="btn btn-warning w-100">Saya sudah transfer</button>
                     </form>
+                @endif
+
+                @if ($order->isOfflinePayment())
+                    <div class="alert alert-info text-start mb-4">
+                        Silakan lakukan pembayaran langsung ke admin.
+                    </div>
                 @endif
             </div>
 

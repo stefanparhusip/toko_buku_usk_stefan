@@ -347,21 +347,42 @@
             <p class="text-muted mb-0">Temukan buku berdasarkan judul, author, atau kategori favorit Anda.</p>
         </div>
 
-        <form method="GET" action="{{ route('search') }}" class="d-flex gap-2" role="search">
-            @if ($selectedCategory > 0)
-                <input type="hidden" name="category" value="{{ $selectedCategory }}">
-            @endif
-            <input type="text" name="q" class="form-control" placeholder="Cari judul / author..." value="{{ $search }}">
-            <button type="submit" class="btn btn-navy">Search</button>
+        <form method="GET" action="{{ route('books.index') }}" class="row g-2 w-100" role="search" style="max-width: 980px;">
+            <div class="col-12 col-lg-4">
+                <input type="text" name="search" class="form-control" placeholder="Cari buku atau penulis..." value="{{ $search }}">
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <select name="category" class="form-select">
+                    <option value="">Semua Kategori</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected($selectedCategory === $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <select name="author" class="form-select">
+                    <option value="">Pilih Penulis</option>
+                    @foreach ($authors as $author)
+                        <option value="{{ $author }}" @selected(($selectedAuthor ?? '') === $author)>{{ $author }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-12 col-lg-2 d-grid d-lg-flex gap-2">
+                <button type="submit" class="btn btn-navy w-100">Filter</button>
+                <a href="{{ route('books.index') }}" class="btn btn-outline-secondary w-100">Reset Filter</a>
+            </div>
         </form>
     </div>
 
-    @if ($categories->isNotEmpty())
+    @if ($categories->isNotEmpty() && empty($selectedAuthor ?? ''))
         <div class="d-flex flex-wrap gap-2 mb-4">
-            <a href="{{ route('books.index', ['search' => $search ?: null]) }}" class="btn btn-sm {{ $selectedCategory === 0 ? 'btn-navy' : 'btn-outline-secondary' }}">Semua</a>
+            <a href="{{ route('books.index', ['search' => $search ?: null, 'author' => $selectedAuthor ?: null]) }}" class="btn btn-sm {{ $selectedCategory === 0 ? 'btn-navy' : 'btn-outline-secondary' }}">Semua</a>
             @foreach ($categories as $category)
                 <a
-                    href="{{ route('books.index', ['category' => $category->id, 'search' => $search ?: null]) }}"
+                    href="{{ route('books.index', ['category' => $category->id, 'search' => $search ?: null, 'author' => $selectedAuthor ?: null]) }}"
                     class="btn btn-sm {{ $selectedCategory === $category->id ? 'btn-navy' : 'btn-outline-secondary' }}"
                 >
                     {{ $category->name }}
@@ -404,6 +425,6 @@
     </div>
 
     <div class="mt-4">
-        {{ $books->links() }}
+        {{ $books->appends(['search' => $search ?: null, 'category' => $selectedCategory ?: null, 'author' => $selectedAuthor ?: null])->links() }}
     </div>
 @endsection

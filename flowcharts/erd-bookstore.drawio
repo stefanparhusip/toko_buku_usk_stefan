@@ -1,0 +1,84 @@
+<mxfile host="app.diagrams.net" modified="2026-04-09T12:00:00.000Z" agent="GPT-5.3-Codex" version="24.7.17" type="device">
+  <diagram id="erd-bookstore" name="ERD Bookstore">
+    <mxGraphModel dx="1420" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="users" value="&lt;b&gt;users&lt;/b&gt;&lt;br&gt;id (PK)&lt;br&gt;name&lt;br&gt;email&lt;br&gt;address&lt;br&gt;phone&lt;br&gt;password&lt;br&gt;role (admin/user)&lt;br&gt;created_at&lt;br&gt;updated_at" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="70" width="270" height="250" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="categories" value="&lt;b&gt;categories&lt;/b&gt;&lt;br&gt;id (PK)&lt;br&gt;name&lt;br&gt;created_at&lt;br&gt;updated_at" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="70" width="250" height="150" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="books" value="&lt;b&gt;books&lt;/b&gt;&lt;br&gt;id (PK)&lt;br&gt;category_id (FK)&lt;br&gt;title&lt;br&gt;author&lt;br&gt;publisher&lt;br&gt;year&lt;br&gt;price&lt;br&gt;stock&lt;br&gt;description&lt;br&gt;image&lt;br&gt;created_at&lt;br&gt;updated_at" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="270" width="280" height="300" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="carts" value="&lt;b&gt;carts&lt;/b&gt;&lt;br&gt;id (PK)&lt;br&gt;user_id (FK)&lt;br&gt;book_id (FK)&lt;br&gt;quantity&lt;br&gt;total_price&lt;br&gt;created_at&lt;br&gt;updated_at" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="390" width="260" height="210" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="orders" value="&lt;b&gt;orders&lt;/b&gt;&lt;br&gt;id (PK)&lt;br&gt;user_id (FK)&lt;br&gt;order_code&lt;br&gt;total_payment&lt;br&gt;status&lt;br&gt;payment_method&lt;br&gt;resi&lt;br&gt;created_at&lt;br&gt;updated_at" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="760" y="70" width="270" height="250" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="order_details" value="&lt;b&gt;order_details&lt;/b&gt;&lt;br&gt;id (PK)&lt;br&gt;order_id (FK)&lt;br&gt;book_id (FK)&lt;br&gt;quantity&lt;br&gt;price&lt;br&gt;subtotal&lt;br&gt;created_at&lt;br&gt;updated_at" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="780" y="390" width="280" height="230" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="contacts" value="&lt;b&gt;contacts&lt;/b&gt;&lt;br&gt;id (PK)&lt;br&gt;sender_id (FK → users)&lt;br&gt;receiver_id (FK → users)&lt;br&gt;subject&lt;br&gt;message&lt;br&gt;created_at&lt;br&gt;updated_at" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=8;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="210" width="300" height="220" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e1" value="1:N&#10;FK: carts.user_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4f81bd;" edge="1" parent="1" source="users" target="carts">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e2" value="1:N&#10;FK: orders.user_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#4f81bd;" edge="1" parent="1" source="users" target="orders">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e3" value="1:N (sender)&#10;FK: contacts.sender_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#e69138;" edge="1" parent="1" source="users" target="contacts">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="130"/>
+              <mxPoint x="350" y="180"/>
+              <mxPoint x="1080" y="180"/>
+              <mxPoint x="1080" y="260"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e4" value="1:N (receiver)&#10;FK: contacts.receiver_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=block;endFill=1;strokeColor=#e69138;" edge="1" parent="1" source="users" target="contacts">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="250"/>
+              <mxPoint x="350" y="500"/>
+              <mxPoint x="1080" y="500"/>
+              <mxPoint x="1080" y="360"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e5" value="1:N&#10;FK: books.category_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#b45f06;" edge="1" parent="1" source="categories" target="books">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e6" value="1:N&#10;FK: carts.book_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#6aa84f;" edge="1" parent="1" source="books" target="carts">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e7" value="1:N&#10;FK: order_details.book_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#cc0000;" edge="1" parent="1" source="books" target="order_details">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e8" value="1:N&#10;FK: order_details.order_id" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#674ea7;" edge="1" parent="1" source="orders" target="order_details">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

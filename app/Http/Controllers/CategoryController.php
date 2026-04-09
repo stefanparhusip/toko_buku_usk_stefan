@@ -16,6 +16,7 @@ class CategoryController extends Controller
         return redirect()->route('books.index', array_filter([
             'category' => $category->id,
             'search' => trim((string) $request->query('search', '')),
+            'author' => trim((string) $request->query('author', '')),
         ], static fn ($value) => $value !== ''));
     }
 }
